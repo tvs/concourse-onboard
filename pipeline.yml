@@ -1,9 +1,6 @@
+---
 resources:
-  #- name: every-1m
-  #  type: time
-  #  source: {interval: 1m}
-
-- name: source-code
+- name: concourse-onboard
   type: git
   source:
     uri: https://github.com/tvs/concourse-onboard.git
@@ -14,23 +11,9 @@ resources:
     disable_ci_skip: true
 
 jobs:
-  #- name: navi
-  #  plan:
-  #  - get: every-1m
-  #    trigger: true
-  #  - task: annoy
-  #    file: ci/annoy.yml
-
-- name: fetchin
+- name: fetch-source
   plan:
-  - get: source-code
+  - get: concourse-onboard
     params: {depth: 100}
-  - task: sup
-    config:
-      platform: linux
-      image_resource:
-        type: docker-image
-        source: {repository: ubuntu}
-      run:
-        path: echo
-        args: ["What's up?"]
+  - task: annoy
+    file: concourse-onboard/ci/annoy.yml
