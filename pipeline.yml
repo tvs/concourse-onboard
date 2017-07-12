@@ -1,7 +1,7 @@
 resources:
-- name: every-1m
-  type: time
-  source: {interval: 1m}
+  #- name: every-1m
+  #  type: time
+  #  source: {interval: 1m}
 
 - name: source-code
   type: git
