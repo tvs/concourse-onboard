@@ -1,0 +1,27 @@
+resources:
+- name: every-1m
+  type: time
+  source: {interval: 1m}
+
+- name: source-code
+  type: git
+  source:
+    uri: git@github.com:tvs/concourse-onboard.git
+    branch: master
+    git_config:
+      - name: core.bigFileThreshold
+        value: 10m
+    disable_ci_skip: true
+
+jobs:
+- name: navi
+  plan:
+  - get: every-1m
+    trigger: true
+  - task: annoy
+    file: ci/annoy.yml
+
+- name: fetchin
+  plan:
+  - get: source-code
+    params: {depth: 100}
